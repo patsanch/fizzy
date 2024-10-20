@@ -4,7 +4,7 @@ class Event < ApplicationRecord
   include Assignments
 
   belongs_to :creator, class_name: "User"
-  belongs_to :bubble
+  belongs_to :bubble, touch: true
 
   has_one :account, through: :creator
 
