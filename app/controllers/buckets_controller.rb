@@ -20,10 +20,8 @@ class BucketsController < ApplicationController
   end
 
   def update
-    @bucket.transaction do
-      @bucket.update! bucket_params
-      @bucket.accesses.revise granted: grantees, revoked: revokees
-    end
+    @bucket.update! bucket_params
+    @bucket.accesses.revise granted: grantees, revoked: revokees
 
     redirect_to bucket_bubbles_path(@bucket)
   end
