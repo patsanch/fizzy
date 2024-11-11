@@ -1,0 +1,4 @@
+<%= turbo_stream.remove filter_button_id(params[:value], params[:name]) %>
+<%= turbo_stream.append :filter_form do %>
+  <%= filter_button_tag display: params[:display], value: params[:value], name: params[:name], class: "fill-selected" %>
+<% end %>

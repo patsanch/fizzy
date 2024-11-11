@@ -8,15 +8,23 @@ module Filter::Params
   end
 
   def as_params
-    params = {}.tap do |h|
-      h["tag_ids"]      = tags.ids
-      h["bucket_ids"]   = buckets.ids
-      h["assignee_ids"] = assignees.ids
-      h["indexed_by"]   = indexed_by
-      h["assignments"]  = assignments
-    end
+    @as_params ||= to_h.dup.tap do |h|
+      h["tag_ids"] = h.delete("tags")&.ids
+      h["bucket_ids"] = h.delete("buckets")&.ids
+      h["assignee_ids"] = h.delete("assignees")&.ids
+    end.compact_blank
+  end
 
-    params.compact_blank.reject { |k, v| default_fields[k] == v }
+  def to_h
+    @to_h ||= {}.tap do |h|
+      h["indexed_by"] = indexed_by
+      h["assignments"] = assignments
+      h["assignees"] = assignees
+      h["tags"] = tags
+      h["buckets"] = buckets
+    end.reject do |k, v|
+      default_fields[k] == v
+    end.compact_blank
   end
 
   def to_params

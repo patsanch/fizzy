@@ -1,6 +1,6 @@
-<div class="flex flex-column gap-half align-center" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+<div class="flex flex-column gap-half align-center" data-controller="dialog filter-form" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
   <h1 class="txt-large flex align-center gap-half">
-    Writebook
+    <%= filter.buckets.first&.name || "All projects" %>
   </h1>
 
   <div class="filters flex-inline align-center gap-half">
@@ -9,35 +9,9 @@
       <span class="for-screen-reader">Filter</span>
     </button>
 
-    <button class="btn txt-small btn--remove">
-      <span>"Basecamp"</span>
-      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-    </button>
-
-    <button class="btn txt-small btn--remove">
-      <span>Newest</span>
-      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-    </button>
-
-    <button class="btn txt-small btn--remove">
-      <span>Writebook</span>
-      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-    </button>
-
-    <button class="btn txt-small btn--remove">
-      <span>Mobile</span>
-      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-    </button>
-
-    <button class="btn txt-small btn--remove">
-      <span>for Kevin</span>
-      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-    </button>
-
-    <button class="btn txt-small btn--remove">
-      <span>from David</span>
-      <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-    </button>
+    <%= form_with url: bubbles_path, method: :get, class: "flex-inline center align-center gap-half", data: { controller: "form" } do %>
+      <%= filter_buttons filter %>
+    <% end %>
   </div>
 
   <dialog class="panel fill-white shadow" style="--panel-padding: var(--block-space); --panel-size: 90ch;" data-dialog-target="dialog">
@@ -45,9 +19,9 @@
       <div class="flex align-center gap-half justify-space-between">
         <span class="btn btn--placeholder txt-small" aria-hidden="true"></span>
 
-        <h1 class="txt-large flex gap-half margin-none">
-          Writebook
-        </h1>
+        <h2 class="txt-large flex gap-half margin-none">
+          <%= filter.buckets.first&.name || "All projects" %>
+        </h2>
 
         <form method="dialog">
           <button class="btn panel__close txt-small" title="Close (esc)">
@@ -63,35 +37,9 @@
           <span class="for-screen-reader">Filter</span>
         </button>
 
-        <button class="btn txt-small btn--remove fill-selected">
-          <span>"Basecamp"</span>
-          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-        </button>
-
-        <button class="btn txt-small btn--remove fill-selected">
-          <span>Newest</span>
-          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-        </button>
-
-        <button class="btn txt-small btn--remove fill-selected">
-          <span>Writebook</span>
-          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-        </button>
-
-        <button class="btn txt-small btn--remove fill-selected">
-          <span>Mobile</span>
-          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-        </button>
-
-        <button class="btn txt-small btn--remove fill-selected">
-          <span>for Kevin</span>
-          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-        </button>
-
-        <button class="btn txt-small btn--remove fill-selected">
-          <span>from David</span>
-          <%= image_tag "close.svg", aria: { hidden: true }, size: 24 %>
-        </button>
+        <%= form_with url: bubbles_path, id: :filter_form, method: :get, class: "flex-inline center align-center gap-half" do %>
+          <%= filter_buttons filter, class: "fill-selected" %>
+        <% end %>
       </div>
 
       <div class="flex gap flex-item-grow align-center justify-center full-width center margin-block">
@@ -109,7 +57,7 @@
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Sort by</strong></li>
               <% Filter::INDEXES.each do |index| %>
-                <li><%= link_to index.humanize, bubbles_path(filter.to_params.merge(indexed_by: index)), class: "filter__button" %></li>
+                <li><%= button_to_filter index.humanize, kind: :indexed_by, object: index, data: { action: "filter-form#clearCategory", filter_form_name_param: "indexed_by" } %></li>
               <% end %>
             </menu>
           </div>
@@ -118,9 +66,9 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">In Project</strong></li>
-              <li><%= link_to "All projects", bubbles_path(filter.to_params.merge(bucket_ids: nil)), class: "filter__button" %></li>
+              <li><%= button_to_filter "All projects", kind: :buckets, object: nil, data: { action: "filter-form#clearCategory", filter_form_name_param: "bucket_ids[]" } %></li>
               <% Current.user.buckets.order(:name).each do |bucket| %>
-                <li><%= link_to bucket.name, bubbles_path(filter.to_params.merge(bucket_ids: [ bucket.id ])), class: "filter__button" %></li>
+                <li><%= button_to_filter bucket.name, kind: :buckets, object: bucket %></li>
               <% end %>
             </menu>
           </div>
@@ -130,7 +78,7 @@
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Tagged</strong></li>
               <% Current.account.tags.order(:title).each do |tag| %>
-                <li><%= link_to tag.title, bubbles_path(filter.to_params.merge(tag_ids: [ tag.id ])) %></li>
+                <li><%= button_to_filter tag.title, kind: :tags, object: tag %></li>
               <% end %>
             </menu>
           </div>
@@ -139,9 +87,10 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Assigned to…</strong></li>
-              <li><%= link_to "No one", bubbles_path(filter.to_params.merge(assignments: :unassigned, assignee_ids: [])), class: "filter__button" %></li>
-              <% Current.account.users.active.order(:name).each do |user| %>
-                <li><%= link_to user.name, bubbles_path(filter.to_params.merge(assignments: nil, assignee_ids: [ user.id ])) %></li>
+              <li><%= button_to_filter "No one", kind: :assignments, object: "unassigned", data: { action: "filter-form#clearCategory", filter_form_name_param: "assignee_ids[]" } %></li>
+              <li><%= button_to_filter "Me", kind: :assignees, object: Current.user, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %></li>
+              <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
+                <li><%= button_to_filter user.name, kind: :assignees, object: user, data: { action: "filter-form#clearCategory", filter_form_name_param: "assignments" } %></li>
               <% end %>
             </menu>
           </div>
@@ -150,9 +99,9 @@
           <div class="flex gap flex-item-grow">
             <menu class="filter__menu unpad margin-none">
               <li><strong class="filter__label">Assigned by…</strong></li>
-              <li><a href="">Me</a></li>
-              <% Current.account.users.active.order(:name).each do |user| %>
-                <li><%= link_to user.name, bubbles_path(filter.to_params.merge(assignments: nil, assignee_ids: [ user.id ])) %></li>
+              <li><%= button_to_filter "Me", kind: :assigners, object: Current.user %></li>
+              <% Current.account.users.active.without(Current.user).order(:name).each do |user| %>
+                <li><%= button_to_filter user.name, kind: :assigners, object: user %></li>
               <% end %>
             </menu>
           </div>
@@ -160,12 +109,12 @@
       </div>
 
       <div class="flex align-center txt-align-center justify-space-between gap-half margin-block-start">
-        <button class="btn">
+        <%= tag.button class: "btn", form: :filter_form, formaction: filters_path, formmethod: :post do %>
           <%= image_tag "bubbles.svg", aria: { hidden: true }, size: 24 %>
           <span>Save to home</span>
-        </button>
+        <% end %>
 
-        <button class="btn btn--reversed">
+        <button class="btn btn--reversed" form="filter_form">
           <span>Apply</span>
           <%= image_tag "arrow-right.svg", aria: { hidden: true }, size: 24 %>
         </button>

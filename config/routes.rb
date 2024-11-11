@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   end
 
   resources :filters
+  resources :filter_buttons
   resource :first_run
   resource :session
 
