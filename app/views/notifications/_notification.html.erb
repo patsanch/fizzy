@@ -7,7 +7,7 @@
 
       <div class="flex flex-column txt-tight-lines">
         <strong><%= notification_title(notification) %></strong>
-        <%= notification_body(notification) %> · <%= time_ago_in_words(notification.created_at) %> ago
+        <div><%= notification_body(notification) %> · <%= local_datetime_tag(notification.created_at, style: :ago) %></div>
       </div>
     </div>
   <% end %>
