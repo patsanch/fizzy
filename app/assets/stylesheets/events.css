@@ -23,8 +23,8 @@
 
 .event {
   --column-gap: 0.7ch;
-  --panel-border-radius: 0.7em;
-  --panel-padding: 0.6em;
+  --panel-border-radius: 0.5em;
+  --panel-padding: 0.6em 1.2em 0.6em 0.6em;
   --panel-size: auto; 
 
   margin: var(--inline-space);
