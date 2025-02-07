@@ -45,6 +45,36 @@ body {
 
   > nav {
     view-transition-name: nav;
+
+    header {
+      h1 {
+        font-weight: 800;
+        margin-block-start: 0.2em;
+        text-align: center;
+
+        a:not([class]) {
+          background-color: transparent;
+          font-weight: inherit;
+          text-decoration: underline;
+        }
+      }
+
+      a:not([class]) {
+        background-color: var(--color-subtle-light);
+        border-radius: 2em;
+        color: var(--color-ink);
+        font-weight: 500;
+        padding: 0.2em 0.8em;
+        text-decoration: none;
+  
+        @media (hover: hover) {
+          &:hover {
+            background-color: var(--color-subtle);
+            text-decoration: none;
+          }
+        }
+      }
+    }
   }
 
   > * {

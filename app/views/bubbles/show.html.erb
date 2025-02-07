@@ -11,14 +11,12 @@
 
   <nav class="align-start max-width">
     <header class="flex flex-column center max-width">
-      <div class="flex align-center gap justify-center">
+      <div class="flex align-center gap-half justify-center">
         <%= link_to "Collections", root_path %>
         <%= link_to "Activity", events_path %>
       </div>
       <h1 class="txt-large txt-align-center min-width flex align-center gap-half margin-block-end">
-        <span class="overflow-ellipsis">
-          <%= link_to @bucket.name, bubbles_path(bucket_ids: [ @bucket ]) %>
-        </span>
+        <%= link_to @bucket.name, bubbles_path(bucket_ids: [ @bucket ]) %>
       </h1>
     </header>
   </nav>
