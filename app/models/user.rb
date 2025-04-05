@@ -1,14 +1,10 @@
 class User < ApplicationRecord
-  include Avatar, Role, Transferable
+  include Accessor, Avatar, Role, Transferable
 
   belongs_to :account
 
   has_many :sessions, dependent: :destroy
   has_secure_password validations: false
-
-  has_many :accesses, dependent: :destroy
-  has_many :buckets, through: :accesses
-  has_many :accessible_bubbles, through: :buckets, source: :bubbles
 
   has_many :filters, foreign_key: :creator_id, inverse_of: :creator, dependent: :destroy
 
@@ -26,8 +22,6 @@ class User < ApplicationRecord
   has_many :pinned_bubbles, through: :pins, source: :bubble
 
   normalizes :email_address, with: ->(value) { value.strip.downcase }
-
-  after_create_commit :grant_access_to_buckets
 
   scope :alphabetically, -> { order("lower(name)") }
   scope :sorted_with_user_first, ->(user) { order(Arel.sql("users.id != ?, lower(name)", user.id)) }
@@ -53,7 +47,4 @@ class User < ApplicationRecord
       email_address.sub(/@/, "-deactivated-#{SecureRandom.uuid}@")
     end
 
-    def grant_access_to_buckets
-      Access.insert_all account.buckets.all_access.pluck(:id).collect { |bucket_id| { bucket_id: bucket_id, user_id: id } }
-    end
 end
