@@ -24,6 +24,14 @@ export default class extends Controller {
     clearInterval(this.#timer)
   }
 
+  refreshAll() {
+    this.constructor.targets.forEach(targetName => {
+      this.targets.findAll(targetName).forEach(target => {
+        this.#formatTime(this[`${targetName}Formatter`], target)
+      })
+    })
+  }
+
   timeTargetConnected(target) {
     this.#formatTime(this.timeFormatter, target)
   }
