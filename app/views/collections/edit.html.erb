@@ -13,8 +13,8 @@
 <% end %>
 
 <section class="panels--two-up margin-block">
-  <div class="panel shadow center flex flex-column">
-    <strong class="txt-large">Name and access</strong>
+  <div class="panel shadow center flex flex-column txt-normal">
+    <strong class="txt-large">Name and Access</strong>
     <p class="margin-none-block-start">Choose who can access this Collection.</p>
     <%= form_with model: @collection, class: "flex flex-column gap txt-large", data: { controller: "form" } do |form| %>
       <div class="flex align-center gap">
@@ -27,7 +27,7 @@
 
       <section class="margin-block pad-inline fill-shade border-radius">
         <%= access_menu_tag @collection do %>
-          <li class="flex align-center gap margin-none">
+          <li class="flex align-center gap margin-none txt-normal">
             <figure class="avatar flex-item-no-shrink" style="--avatar-border-radius: 0; --avatar-size: 3.5ch; margin-inline: 0.3em;">
               <%= icon_tag "everyone" %>
               <span class="for-screen-reader">Everyone</span>
@@ -75,17 +75,17 @@
 
   <div class="panel shadow center flex flex-column">
     <strong class="txt-large">Workflows</strong>
-    <p class="margin-none-block-start">Use a Workflow to track progress in this Collection.</p>
     <%= form_with model: @collection, url: collection_workflow_path(@collection), local: true, method: :patch, data: { controller: "form" } do |form| %>
+      <%= form.label :workflow_id, "Use a Workflow to track progress in this Collection.", class: "flex justify-center margin-block-end" %>
       <%= form.select :workflow_id, Workflow.all.map { |w| [w.name, w.id] }, { include_blank: "Choose…" }, class: "input input--select full-width", data: { action: "change->form#submit" } %>
     <% end %>
     <p><%= link_to "Manage workflows", workflows_path, class: "btn btn--plain txt-link" %></p>
 
     <hr class="separator--horizontal full-width margin-block-double" style="--border-color: var(--color-subtle);" aria-hidden="true" />
 
-    <strong class="txt-large">Auto-close Cards</strong>
-    <p class="margin-none-block-start">Cards Fizzle Out when there is no activity for…</p>
-    <%= select_tag :auto_close_after, options_for_select(Card::Closeable::AUTO_CLOSE_OPTIONS, Card::Closeable::AUTO_CLOSE_AFTER), { class: "input input--select full-width margin-block-end", data: { action: "change->form#submit" } } %>
+    <strong class="txt-large">Auto-Close Cards</strong>
+    <label for="closure" class="margin-block-end">Cards automatically close when there is no activity for…</label>
+    <%= select_tag :closure, options_for_select(Card::Closeable::AUTO_CLOSE_OPTIONS, Card::Closeable::AUTO_CLOSE_AFTER), { class: "input input--select full-width margin-block-end", data: { action: "change->form#submit" } } %>
 
     <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle); margin-block-start: auto;" aria-hidden="true" />
 

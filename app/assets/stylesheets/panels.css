@@ -24,7 +24,8 @@
     margin: auto;
 
     .panel {
-      flex: 1 1 25%;
+      flex: 1 1 33%;
+      min-inline-size: 36ch;
     }
   }
 }
