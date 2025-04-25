@@ -1,6 +1,6 @@
 module AccessesHelper
   def access_menu_tag(collection, &)
-    tag.menu class: [ "flex flex-column gap margin-none pad txt-medium", { "toggler--toggled": collection.all_access? } ], data: {
+    tag.menu class: [ "flex flex-column gap-half unpad margin-none txt-medium", { "toggler--toggled": collection.all_access? } ], data: {
       controller: "filter toggle-class",
       filter_active_class: "filter--active", filter_selected_class: "selected",
       toggle_class_toggle_class: "toggler--toggled" }, &

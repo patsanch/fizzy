@@ -1,4 +1,4 @@
-<li class="flex align-center gap-half margin-none unpad" data-value="<%= user.name.downcase %>">
+<li class="flex align-center gap-half margin-none unpad txt-normal" data-value="<%= user.name.downcase %>">
   <figure class="avatar flex-item-no-shrink">
     <%= avatar_tag user %>
   </figure>
@@ -11,7 +11,7 @@
 
   <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-subtle-dark); --border-style: dashed" aria-hidden="true">
 
-  <%= icon_tag "check", class: "toggler__visible-when-on" %>
+  <%= icon_tag "check", class: "toggler__visible-when-on margin-inline-end" %>
 
   <label class="switch toggler__visible-when-off flex-item-no-shrink">
     <%= check_box_tag "user_ids[]", user.id, selected, class: "switch__input", id: nil %>

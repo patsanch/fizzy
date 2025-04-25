@@ -1,0 +1,4 @@
+.users-list {
+  max-block-size: 40dvh;
+  overflow: auto;
+}

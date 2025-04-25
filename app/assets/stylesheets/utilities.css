@@ -108,6 +108,7 @@
   .pad-inline-double { padding-inline: var(--inline-space-double); }
 
   .unpad { padding: 0; }
+  .unpad-block-end { padding-block-end: 0; }
   .unpad-inline { padding-inline: 0; }
 
   /* Margins */

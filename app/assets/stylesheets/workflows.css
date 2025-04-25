@@ -28,4 +28,40 @@
       }
     }
   }
+
+  .workflow-preview {
+    --border-size: 3px;
+
+    flex: 1 1 30%;
+    max-inline-size: 33%;
+    padding: 0.5em 1em;
+
+    button {
+      --hover-size: 0;
+
+      appearance: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      inline-size: auto;
+      margin: 0;
+      max-inline-size: 100%;
+      outline: 0;
+      padding: 0;
+      text-align: left;
+    }
+  }
+
+  .workflow-preview--selected {
+    --border-color: var(--color-link);
+  }
+
+  .workflow-preview__swatch {
+    --btn-size: 1em;
+    --btn-border-radius: 50%;
+    --btn-border-size: 0;
+    --hover-size: 0;
+
+    cursor: auto;
+  }
 }

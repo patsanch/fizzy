@@ -12,6 +12,7 @@
     --grid-lines: 0.1rem;
 
     margin: auto;
+    max-inline-size: min(105ch, 100%);
   }
 
   .events__day-header {
@@ -80,6 +81,12 @@
 
     box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
     z-index: 2;
+  }
+
+  .event__collection {
+    font-size: var(--text-x-small);
+    font-weight: 500;
+    opacity: 0.66;
   }
 
   .event__grid-item {
