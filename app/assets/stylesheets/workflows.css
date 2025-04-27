@@ -35,21 +35,25 @@
     aspect-ratio: 1;
     flex: 1 1 30%;
     max-inline-size: 33%;
-    padding: 0.5em 1em;
 
     button {
       --hover-size: 0;
 
       appearance: none;
+      aspect-ratio: 1;
       background: transparent;
+      block-size: 100%;
       border: none;
       cursor: pointer;
-      inline-size: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      inline-size: 100%;
       margin: 0;
       max-inline-size: 100%;
       outline: 0;
-      padding: 0;
-      text-align: left;
+      padding: 1em;
+      text-align: start;
     }
   }
 

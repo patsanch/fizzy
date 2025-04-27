@@ -6,7 +6,7 @@
       <%= button_to collection_workflow_path(collection), method: :patch do %>
         <%= hidden_field_tag "collection[workflow_id]", workflow.id %>
         <strong class="txt-small overflow-ellipsis"><%= workflow.name %></strong>
-        <ul class="list-style-none txt-xx-small ">
+        <ul class="list-style-none txt-xx-small margin-none flex flex-column gap-half">
           <% workflow.stages.each do |stage| %>
             <li class="overflow-ellipsis flex align-center gap-half min-width">
               <span class="workflow-preview__swatch btn btn--circle" style="--btn-background: <%= stage.color.present? ? stage.color : Card::Colored::DEFAULT_COLOR %>;"></span>
