@@ -3,7 +3,7 @@ import { nextFrame } from "helpers/timing_helpers"
 
 export default class extends Controller {
   static targets = [ "item" ]
-  static values = { selectionAttribute: { type: String, default: "aria-current" } }
+  static values = { selectionAttribute: { type: String, default: "aria-selected" } }
 
   connect() {
     this.selectLast()
