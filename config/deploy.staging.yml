@@ -21,7 +21,7 @@ env:
     RAILS_ENV: staging
 
 x-beamer-accessory: &beamer-accessory
-  image: basecamp/beamer
+  image: basecamp/beamer:vfs
   registry:
     username: bcbot
     password:
