@@ -26,12 +26,12 @@ class Signup
     super
   end
 
-  def process
+  def process(destroy_existing_tenant: false)
     return false unless valid?
 
     create_signal_identity
     create_queenbee_account
-    create_tenant
+    create_tenant(destroy_existing_tenant:)
 
     true
   rescue => error
@@ -42,6 +42,10 @@ class Signup
     errors.add(:base, "An error occurred during signup: #{error.message}")
 
     false
+  end
+
+  def tenant_name
+    @tenant_name ||= signal_account.subdomain
   end
 
   private
@@ -60,7 +64,8 @@ class Signup
       end
     end
 
-    def create_tenant(&block)
+    def create_tenant(destroy_existing_tenant: false, &block)
+      ApplicationRecord.destroy_tenant(tenant_name) if destroy_existing_tenant
       ApplicationRecord.create_tenant(tenant_name) do
         @account = Account.create_with_admin_user(queenbee_id: queenbee_account.id)
         @account.setup_basic_template
@@ -125,9 +130,5 @@ class Signup
 
     def request_attributes
       { remote_address: Current.ip_address, user_agent: Current.user_agent, referrer: Current.referrer }
-    end
-
-    def tenant_name
-      @tenant_name ||= signal_account.subdomain
     end
 end

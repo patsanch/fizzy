@@ -12,7 +12,7 @@ jz:
   email_address: jz@37signals.com
   password_digest: <%= digest %>
   role: member
-  signal_user: 37s_fizzy_jz
+  signal_user: 37s_fizzy_jzimdars
 
 kevin:
   name: Kevin
