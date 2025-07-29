@@ -12,17 +12,17 @@
             title: "Notification settings",
             data: { action: "dialog#close" } do %>
         <%= icon_tag "settings" %>
-        <span class="translucent">Settings</span>
+        <span>Settings</span>
       <% end %>
 
       <%= link_to notifications_path, class: "tray__new-notifications btn borderless flex-item-grow position-relative overflow-ellipsis", data: { action: "click->dialog#close" } do %>
         <%= icon_tag "bell" %>
-        <span class="translucent">See more new items</span>
+        <span>See more new items</span>
       <% end %>
 
       <%= link_to notifications_path, class: "tray__old-notifications btn borderless flex-item-grow position-relative overflow-ellipsis", data: { action: "click->dialog#close" } do %>
         <%= icon_tag "bell" %>
-        <span class="translucent">See older items</span>
+        <span>See older items</span>
       <% end %>
 
       <%= button_to read_all_notifications_path,
@@ -30,7 +30,7 @@
             title: "Mark all notifications as read",
             data: { action: "dialog#close badge#clear", turbo_frame: "notifications" } do %>
         <%= icon_tag "check" %>
-        <span class="translucent">Clear all</span>
+        <span>Clear all</span>
       <% end %>
     </div>
   </dialog>

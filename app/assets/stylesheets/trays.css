@@ -209,13 +209,18 @@
       block-size: 100%;
       display: flex;
       flex-direction: column;
-      font-size: 12px;
       font-weight: normal;
       gap: 0.25ch;
       inline-size: 100%;
 
       &:focus-visible {
         z-index: 1;
+      }
+
+      @media (max-width: 1060px) {
+        > span:not(.icon) {
+          font-size: 12px;
+        }
       }
     }
 
@@ -444,11 +449,6 @@
       .tray__dialog:not([open]) ~ .tray__toggle {
         border-inline-start: 1px dashed var(--color-ink-light);
         translate: var(--tray-margin) 0;
-      }
-
-      /* …and hide the dialog if there aren't items to show */
-      .tray__dialog:not(:has(.tray__item:not(.tray__hat))) {
-        display: none;
       }
     }
   }
