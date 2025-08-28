@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Accounts::SettingsControllerTest < ActionDispatch::IntegrationTest
+class Account::SettingsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end

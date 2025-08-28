@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Accounts::EntropyConfigurationsControllerTest < ActionDispatch::IntegrationTest
+class Account::EntropyConfigurationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_as :kevin
   end

@@ -1,4 +1,4 @@
-class Accounts::JoinCodesController < ApplicationController
+class Account::JoinCodesController < ApplicationController
   def show
     render svg: RQRCode::QRCode.new(join_url(Account.sole.join_code)).as_svg(viewbox: true, fill: :white, color: :black)
   end

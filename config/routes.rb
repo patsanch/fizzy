@@ -1,11 +1,8 @@
 Rails.application.routes.draw do
-  resource :account do
-    resource :join_code, module: :accounts
-
-    scope module: :accounts do
-      resource :settings
-      resource :entropy_configuration
-    end
+  namespace :account do
+    resource :join_code
+    resource :settings
+    resource :entropy_configuration
   end
 
   resources :users do

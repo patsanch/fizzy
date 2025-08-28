@@ -1,4 +1,4 @@
-class Accounts::EntropyConfigurationsController < ApplicationController
+class Account::EntropyConfigurationsController < ApplicationController
   def update
     Entropy::Configuration.default.update!(entropy_configuration_params)
 
