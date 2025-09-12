@@ -70,7 +70,7 @@ class Webhook::Delivery < ApplicationRecord
       ip_addresses = []
 
       Resolv::DNS.open(timeouts: DNS_RESOLUTION_TIMEOUT) do |dns|
-      dns.each_address(uri.host) do |ip_address|
+        dns.each_address(uri.host) do |ip_address|
           ip_addresses << IPAddr.new(ip_address)
         end
       end
