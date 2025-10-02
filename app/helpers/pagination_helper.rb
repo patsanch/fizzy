@@ -53,8 +53,10 @@ module PaginationHelper
   end
 
   def day_timeline_pagination_link(day_timeline, filter)
-    link_to "Load more...", events_days_path(day: day_timeline.next_day.strftime("%Y-%m-%d"), **filter.as_params),
-      data: { frame: day_timeline_pagination_frame_id_for(day_timeline.next_day), pagination_target: "paginationLink" }
+    if day_timeline.next_day
+      link_to "Load more...", events_days_path(day: day_timeline.next_day.strftime("%Y-%m-%d"), **filter.as_params),
+        data: { frame: day_timeline_pagination_frame_id_for(day_timeline.next_day), pagination_target: "paginationLink" }
+    end
   end
 
   private
