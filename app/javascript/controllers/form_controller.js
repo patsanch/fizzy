@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { debounce } from "helpers/timing_helpers";
+import { debounce, nextFrame } from "helpers/timing_helpers";
 
 export default class extends Controller {
   static targets = [ "cancel", "submit" ]
@@ -37,13 +37,13 @@ export default class extends Controller {
     event.preventDefault()
   }
 
-  disableEmptySubmit(event) {
-    var value = event.target.value.replace(/<\/?[^>]+(>|$)/g, "")
+  async disableSubmitWhenInvalid(event) {
+    await nextFrame()
 
-    if (value) {
+    if (this.element.checkValidity()) {
       this.submitTarget.removeAttribute("disabled")
     } else {
-      this.submitTarget.setAttribute("disabled", true)
+      this.submitTarget.toggleAttribute("disabled", true)
     }
   }
 
