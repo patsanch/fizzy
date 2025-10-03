@@ -58,14 +58,3 @@ accessories:
         - 443:443
     volumes:
       - load-balancer:/home/kamal-proxy/.config/kamal-proxy
-
-  otel_collector-load-balancer:
-    image: otel/opentelemetry-collector-contrib:0.126.0
-    port: 9394
-    files:
-      - config/otel_collector.yml:/etc/otelcol-contrib/config.yaml
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    options:
-      user: 0
-    host: fizzy-lb-101
