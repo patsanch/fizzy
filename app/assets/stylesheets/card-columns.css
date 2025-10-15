@@ -268,15 +268,17 @@
     font-weight: inherit;
     font-size: inherit;
     line-height: var(--column-width-collapsed);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     .cards.is-collapsed & {
+      max-inline-size: 50vh;
       writing-mode: vertical-rl;
     }
 
     .cards:not(.is-collapsed, .cards--considering) & {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      max-inline-size: calc(100% - var(--column-width-collapsed) * 2);
     }
   }
 
