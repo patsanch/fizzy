@@ -49,7 +49,7 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips build-essential ffmpeg groff libreoffice-writer libreoffice-impress libreoffice-calc mupdf-tools sqlite3 && \
+    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips build-essential ffmpeg groff libreoffice-writer libreoffice-impress libreoffice-calc mupdf-tools sqlite3 libjemalloc-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
@@ -71,7 +71,8 @@ ENV RUBY_GC_HEAP_0_INIT_SLOTS=692636 \
     RUBY_GC_HEAP_3_INIT_SLOTS=9169 \
     RUBY_GC_HEAP_4_INIT_SLOTS=3054 \
     RUBY_GC_MALLOC_LIMIT=33554432 \
-    RUBY_GC_MALLOC_LIMIT_MAX=67108864
+    RUBY_GC_MALLOC_LIMIT_MAX=67108864 \
+    LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 80 443 9394
