@@ -3,7 +3,7 @@
 require_relative "../config/environment"
 
 domains = {
-  "production" => "fizzy.37signals.com",
+  "production" => "box-car.com",
   "beta" => "fizzy-beta.37signals.com",
   "staging" => "fizzy.37signals-staging.com"
 }
