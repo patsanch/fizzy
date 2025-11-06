@@ -10,11 +10,11 @@ class Event::Description
   end
 
   def to_html
-    sentence(creator_tag, card_title_tag).html_safe
+    to_sentence(creator_tag, card_title_tag).html_safe
   end
 
   def to_plain_text
-    sentence(creator_text, card.title)
+    to_sentence(creator_text, card.title)
   end
 
   private
@@ -37,7 +37,7 @@ class Event::Description
       tag.span card.title, class: "txt-underline"
     end
 
-    def sentence(creator, card_title)
+    def to_sentence(creator, card_title)
       if event.action.comment_created?
         comment_sentence(creator, card_title)
       else
