@@ -97,3 +97,9 @@ bundle exec kamal app exec --reuse 'bin/rails runner "puts \"Cable table exists:
 config.action_cable.url = "wss://fizzy.sdod.io/cable"
 config.action_cable.allowed_request_origins = [ "https://fizzy.sdod.io", /https:\/\/fizzy\.sdod\.io.*/ ]
 ```
+
+### Broken Images
+
+```ruby
+config.action_controller.default_url_options = { host: "fizzy.sdod.io", protocol: "https" }
+```
