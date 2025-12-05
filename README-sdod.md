@@ -7,6 +7,15 @@
 - see verification code in terminal
 ```
 
+```text
+- login as jason (owner)
+- set to staff to access admin/jobs
+```
+
+```bash
+bin/rails runner 'Identity.find_by(email_address: "jason@37signals.com").update!(staff: true); puts "Updated jason@37signals.com to staff"'
+```
+
 ## Instance Setup
 
 ```bash
@@ -34,4 +43,12 @@ bundle exec kamal deploy
 
 # Fast redeployment: assumes image already exists, skips build/push (quick updates)
 bundle exec kamal redeploy
+```
+
+## Custom
+
+`Email`
+
+```text
+- we're using mailgun
 ```
