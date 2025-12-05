@@ -39,6 +39,9 @@ Rails.application.configure do
   config.action_cable.url = "wss://fizzy.sdod.io/cable"
   config.action_cable.allowed_request_origins = [ "https://fizzy.sdod.io", /https:\/\/fizzy\.sdod\.io.*/ ]
 
+  # Store uploaded files on the persistent volume (see config/storage.yml for options).
+  config.active_storage.service = :production
+
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
   config.assume_ssl = true
