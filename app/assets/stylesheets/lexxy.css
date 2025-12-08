@@ -293,6 +293,10 @@
 
     max-height: 200px;
     overflow: scroll;
+  
+    &:is(.lexxy-prompt-menu--visible) {
+      padding: var(--lexxy-prompt-padding);
+    }
   }
 
   .lexxy-prompt-menu--visible {
