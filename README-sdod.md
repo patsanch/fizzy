@@ -83,7 +83,7 @@ bundle exec kamal app logs -f
 
 In https://github.com/patsanch/fizzy, click on `Sync fork`.
 
-Merge `main` to `sdod`.
+PR `main` to `sdod`. Fix conflicts and create an integration branch `main-sdod-<x>`.
 
 Deploy.
 
