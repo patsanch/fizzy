@@ -24,7 +24,16 @@ bin/rails runner 'Identity.find_by(email_address: "jason@37signals.com").update!
 - we're using mailgun
 ```
 
-## Instance Setup
+## Deploy Preps
+
+`IP`
+10.111.129.46
+
+`Artifactory`
+
+sdod-fizzy-docker-prod-local.artifactory.sie.sony.com
+
+`Instance`
 
 ```bash
 # Ubuntu
@@ -33,6 +42,16 @@ sudo apt-get install -y docker.io git
 sudo systemctl enable --now docker
 sudo usermod -aG docker ubuntu
 # re-login for group to apply
+```
+
+`AWS`
+
+```text
+- set up cert
+- create security groups
+- set up target group
+- set up balancer
+- update route53
 ```
 
 ## Deploy
@@ -52,6 +71,21 @@ bundle exec kamal deploy
 # Fast redeployment: assumes image already exists, skips build/push (quick updates)
 bundle exec kamal redeploy
 ```
+
+`Kamal Debug`
+
+```bash
+bundle exec kamal proxy logs -f
+bundle exec kamal app logs -f
+```
+
+## Syncing git@github.com:basecamp/fizzy.git
+
+In https://github.com/patsanch/fizzy, click on `Sync fork`.
+
+Merge `main` to `sdod`.
+
+Deploy.
 
 ## Troubleshooting
 
