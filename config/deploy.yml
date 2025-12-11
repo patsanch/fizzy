@@ -1,4 +1,4 @@
-# Name of your application. Used to uniquely configure containers.
+# Name of this app
 service: fizzy
 
 # Name of the container image (use your-user/app-name on external registries).
@@ -31,8 +31,9 @@ registry:
   # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
   # server: localhost:5555
 
-  # Needed for authenticated registries.
-  # username: your-user
+# How you connect to your server
+ssh:
+  user: root  # If you use a different username to SSH to your server, specify it here
 
   # Artifactory
   server: sdod-fizzy-docker-prod-local.artifactory.sie.sony.com
@@ -42,32 +43,27 @@ registry:
   password:
     - KAMAL_REGISTRY_PASSWORD
 
-# Inject ENV variables into containers (secrets come from .kamal/secrets).
+# Your application configuration (secrets come from .kamal/secrets).
 env:
   secret:
     - RAILS_MASTER_KEY
     - MAILGUN_DOMAIN
     - MAILGUN_API_KEY
   clear:
-    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
-    # When you start using multiple servers, you should split out job processing to a dedicated machine.
-    SOLID_QUEUE_IN_PUMA: true
+    MAILER_FROM_ADDRESS: support@example.com # The email "from" address that Fizzy sends email from
+    SMTP_ADDRESS: mail.example.com # The SMTP server you'll use to send email
+    MULTI_TENANT: false # Set to false to enable single-tenant mode
+    SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
 
-    # Set number of processes dedicated to Solid Queue (default: 1)
-    # JOB_CONCURRENCY: 3
 
-    # Set number of cores available to the application on each server (default: 1).
-    # WEB_CONCURRENCY: 2
+#-- General configuration --#
 
-    # Match this to any external database server to configure Active Record correctly
-    # Use fizzy-db for a db accessory server on same machine via local kamal docker network.
-    # DB_HOST: 192.168.0.2
+# Use a local registry to deploy
+registry:
+  server: localhost:5555
 
-    # Log everything from Rails
-    # RAILS_LOG_LEVEL: debug
-
-# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
-# "bin/kamal logs -r job" will tail logs from the first server in the job section.
+# Handy aliases for interacting with your deployment. For eaxmple: `bin/kamal console` will connect to a
+# Rails console in production.
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
   shell: app exec --interactive --reuse "bash"
@@ -83,7 +79,6 @@ volumes:
 # hitting 404 on in-flight requests. Combines all files from new and old
 # version inside the asset_path.
 asset_path: /rails/public/assets
-
 
 # Configure the image builder.
 builder:

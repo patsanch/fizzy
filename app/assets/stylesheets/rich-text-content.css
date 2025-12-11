@@ -28,6 +28,20 @@
       }
     }
 
+    :where(ol, ul) {
+      list-style: disc;
+      padding-inline-start: 3ch;
+    }
+
+    :where(li:has(li)) {
+      list-style: none;
+
+      :where(ol, ul) {
+        margin: 0;
+        padding-inline-start: 2ch;
+      }
+    }
+
     :where(b, strong, .lexxy-content__bold) {
       font-weight: 700;
     }
@@ -40,6 +54,10 @@
       text-decoration: line-through;
     }
 
+    :where(mark, .lexxy-content__highlight) {
+      background-color: transparent;
+      color: inherit;
+    }
 
     :where(p, blockquote) {
       letter-spacing: -0.005ch;
@@ -62,7 +80,7 @@
     /* Links should hug media contained within */
     a:has(img),
     a:has(video) {
-      display: inline-block;
+      inline-size: fit-content;
     }
 
     /* Avoid extra space due to empty paragraphs */
@@ -201,14 +219,17 @@
     color: color-mix(in oklch, var(--color-ink) 66%, transparent);
     font-size: var(--text-small);
 
-    .input {
+    textarea {
       --input-border-radius: 0.3em;
       --input-border-size: 0;
       --input-padding: 0;
 
+      background-color: var(--input-background, transparent);
+      border: none;
       color: inherit;
       inline-size: 100%;
       max-inline-size: 100%;
+      resize: none;
       text-align: center;
 
       &:focus {
@@ -263,7 +284,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin-block-start: var(--block-space-half);
+      margin-block-start: 0.5ch;
     }
   }
 
@@ -274,7 +295,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1ch;
-    inline-size: auto;
+    inline-size: 100%;
+    margin-inline: 0;
 
     .attachment__caption {
       display: grid;

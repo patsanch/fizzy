@@ -179,8 +179,14 @@
       outline: var(--focus-ring-size) solid var(--color-selected-dark);
       outline-offset: var(--focus-ring-offset);
 
-      @media (prefers-color-scheme: dark) {
+      html[data-theme="dark"] & {
         outline-color: oklch(var(--lch-blue-medium));
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme]) & {
+          outline-color: oklch(var(--lch-blue-medium));
+        }
       }
     }
   }
@@ -398,30 +404,6 @@
       .cards:not(.is-collapsed) .cards__expander:hover & {
         opacity: 0.66;
         scale: 1;
-      }
-    }
-  }
-
-  .blank-slate--card {
-    box-shadow: none !important;
-    color: color-mix(in srgb, var(--card-color) 70%, var(--color-canvas));
-
-    .cards--considering & {
-      background-color: var(--card-bg-color) !important;
-    }
-
-    p {
-      font-size: var(--text-small);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      &.blank-slate-for-grid {
-        display: none;
-
-        .cards--grid & {
-          display: initial;
-        }
       }
     }
   }
