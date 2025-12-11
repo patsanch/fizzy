@@ -59,6 +59,11 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
+  config.action_cable.url = "wss://fizzy.sdod.io/cable"
+  config.action_cable.allowed_request_origins = [ "https://fizzy.sdod.io", /https:\/\/fizzy\.sdod\.io.*/ ]
+
+  # Store uploaded files on the persistent volume (see config/storage.yml for options).
+  config.active_storage.service = :production
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
@@ -90,7 +95,18 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+
+  # Set host to be used by links generated in mailer and notification view templates.
+  config.action_controller.default_url_options = { host: "fizzy.sdod.io", protocol: "https" }
+  config.action_mailer.default_url_options = { host: "fizzy.sdod.io" }
+
+  # Configure Mailgun as the email delivery service.
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: ENV["MAILGUN_API_KEY"],
+    domain: ENV["MAILGUN_DOMAIN"]
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

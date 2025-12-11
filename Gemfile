@@ -64,3 +64,6 @@ group :test do
   gem "vcr"
   gem "mocha"
 end
+
+# Custom
+gem "mailgun-ruby", "~> 1.4.0"
