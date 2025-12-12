@@ -27,7 +27,7 @@ bin/rails runner 'Identity.find_by(email_address: "jason@37signals.com").update!
 ## Deploy Preps
 
 `IP`
-10.111.129.46
+10.111.129.16
 
 `Artifactory`
 

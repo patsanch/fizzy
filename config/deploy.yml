@@ -7,7 +7,7 @@ image: sdod/fizzy
 # Deploy to these servers.
 servers:
   web:
-    - 10.111.129.46
+    - 10.111.129.16
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -24,7 +24,7 @@ proxy:
   ssl: false
   hosts:
     - fizzy.sdod.io
-    - 10.111.129.46
+    - 10.111.129.16
 
 # Where you keep your container images.
 registry:
