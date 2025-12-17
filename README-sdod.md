@@ -87,6 +87,21 @@ PR `main` to `sdod`. Fix conflicts and create an integration branch `main-sdod-<
 
 Deploy.
 
+### Alt
+
+```bash
+# main is still vanilla
+git checkout main
+git pull basecamp main
+
+# let's sync
+git checkout sdod
+git pull origin sdod
+git checkout -b main-sdod-<x>
+git merge main
+git push origin main-sdod-<x>
+```
+
 ## Troubleshooting
 
 ### Broadcast Jobs Failing / Pin Card 500 Errors
