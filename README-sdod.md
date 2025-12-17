@@ -93,6 +93,11 @@ git pull origin sdod
 git checkout -b main-sdod-<x>
 git merge main
 git push origin main-sdod-<x>
+
+# let's update sdod branch
+git checkout sdod
+git merge main-sdod-<x>
+git push origin sdod
 ```
 
 ## Troubleshooting
