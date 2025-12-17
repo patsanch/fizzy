@@ -90,11 +90,12 @@ Deploy.
 ### Alt
 
 ```bash
-# main is still vanilla
+# let's sync from basecamp and push to our origin
 git checkout main
 git pull basecamp main
+git push origin main
 
-# let's sync
+# let's create the integration branch
 git checkout sdod
 git pull origin sdod
 git checkout -b main-sdod-<x>
