@@ -98,6 +98,9 @@ git push origin main-sdod-<x>
 git checkout sdod
 git merge main-sdod-<x>
 git push origin sdod
+
+# let's clean up integration branches
+git branch -D main-sdod-<x>
 ```
 
 ## Troubleshooting
