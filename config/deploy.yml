@@ -1,47 +1,25 @@
 # Name of this app
 service: fizzy
-
-# Name of the container image (use your-user/app-name on external registries).
 image: sdod/fizzy
 
-# Deploy to these servers.
+
+#-- About your deployment --#
+
+# Where to deploy fizzy
 servers:
   web:
     - 10.111.129.16
-  # job:
-  #   hosts:
-  #     - 192.168.0.1
-  #   cmd: bin/jobs
 
-# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
-# If used with Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
-#
-# Using an SSL proxy like this requires turning on config.assume_ssl and config.force_ssl in production.rb!
-#
-# Don't use this when deploying to multiple web servers (then you have to terminate SSL at your load balancer).
-#
+# How you connect to your server
+ssh:
+  user: ubuntu  # If you use a different username to SSH to your server, specify it here
+
+# Automatic SSL
 proxy:
   ssl: false
   hosts:
     - fizzy.sdod.io
     - 10.111.129.16
-
-# Where you keep your container images.
-registry:
-  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  # server: localhost:5555
-
-# How you connect to your server
-ssh:
-  user: root  # If you use a different username to SSH to your server, specify it here
-
-  # Artifactory
-  server: sdod-fizzy-docker-prod-local.artifactory.sie.sony.com
-  username: pasanchez
-
-  # Always use an access token rather than real password when possible.
-  password:
-    - KAMAL_REGISTRY_PASSWORD
 
 # Your application configuration (secrets come from .kamal/secrets).
 env:
@@ -52,7 +30,7 @@ env:
   clear:
     MAILER_FROM_ADDRESS: support@example.com # The email "from" address that Fizzy sends email from
     SMTP_ADDRESS: mail.example.com # The SMTP server you'll use to send email
-    MULTI_TENANT: false # Set to false to enable single-tenant mode
+    MULTI_TENANT: false # Set to true to allow multiple accounts to sign up
     SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
 
 
@@ -60,7 +38,16 @@ env:
 
 # Use a local registry to deploy
 registry:
-  server: localhost:5555
+  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
+  # server: localhost:5555
+
+  # Artifactory
+  server: sdod-fizzy-docker-prod-local.artifactory.sie.sony.com
+  username: pasanchez
+
+  # Always use an access token rather than real password when possible.
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Handy aliases for interacting with your deployment. For eaxmple: `bin/kamal console` will connect to a
 # Rails console in production.
@@ -85,41 +72,3 @@ builder:
   arch:
   - amd64
   - arm64
-
-  # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-  # remote: ssh://docker@docker-builder-server
-  #
-  # # Pass arguments and secrets to the Docker build process
-  # args:
-  #   RUBY_VERSION: ruby-3.4.7
-  # secrets:
-  #   - GITHUB_TOKEN
-  #   - RAILS_MASTER_KEY
-
-# Use a different ssh user than root
-ssh:
-  user: ubuntu
-
-# Use accessory services (secrets come from .kamal/secrets).
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     # Change to 3306 to expose port to the world instead of just local network.
-#     port: "127.0.0.1:3306:3306"
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
-#   redis:
-#     image: valkey/valkey:8
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data

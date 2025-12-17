@@ -81,14 +81,6 @@ bundle exec kamal app logs -f
 
 ## Syncing git@github.com:basecamp/fizzy.git
 
-In https://github.com/patsanch/fizzy, click on `Sync fork`.
-
-PR `main` to `sdod`. Fix conflicts and create an integration branch `main-sdod-<x>`.
-
-Deploy.
-
-### Alt
-
 ```bash
 # let's sync from basecamp and push to our origin
 git checkout main
