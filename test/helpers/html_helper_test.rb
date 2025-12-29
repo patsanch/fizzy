@@ -10,6 +10,12 @@ class HtmlHelperTest < ActionView::TestCase
       format_html("<p>Check this: https://example.com/</p>")
   end
 
+  test "convert multiple URLs in the same string" do
+    assert_equal_html \
+      %(Visit <a href="https://foo.com/" rel="noopener noreferrer">https://foo.com/</a>. Also see <a href="https://bar.com/" rel="noopener noreferrer">https://bar.com/</a>!),
+      format_html("Visit https://foo.com/. Also see https://bar.com/!")
+  end
+
   test "don't include punctuation in URL autolinking" do
     assert_equal_html \
       %(<p>Check this: <a href="https://example.com/" rel="noopener noreferrer">https://example.com/</a>!</p>),
