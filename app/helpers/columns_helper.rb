@@ -6,12 +6,13 @@ module ColumnsHelper
       method: :post,
       class: [ "card__column-name btn", { "card__column-name--current": column == card.column && card.open? } ],
       style: "--column-color: #{column.color}",
-      form_class: "flex align-center gap-half",
-      data: { turbo_frame: "_top" }
+      form_class: "flex gap-half",
+      data: { turbo_frame: "_top", scroll_to_target: column == card.column && card.open? ? "target" : nil }
   end
 
   def column_tag(id:, name:, drop_url:, collapsed: true, selected: nil, card_color: "var(--color-card-default)", data: {}, **properties, &block)
     classes = token_list("cards", properties.delete(:class), "is-collapsed": collapsed)
+    hotkeys_disabled = data[:card_hotkeys_disabled]
 
     data = {
       drag_and_drop_target: "container",
@@ -37,13 +38,14 @@ module ColumnsHelper
         navigable_list_auto_select_value: "false",
         navigable_list_actionable_items_value: "true",
         navigable_list_only_act_on_focused_items_value: "true",
+        card_hotkeys_disabled: hotkeys_disabled,
         action: "keydown->navigable-list#navigate"
       }, &block)
     end
   end
 
   def column_frame_tag(id, src: nil, data: {}, **options, &block)
-    data = data.reverse_merge \
+    data = data.with_defaults \
       drag_and_drop_refresh: true,
       controller: "frame",
       action: "turbo:before-frame-render->frame#morphRender turbo:before-morph-element->frame#morphReload"

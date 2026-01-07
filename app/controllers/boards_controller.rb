@@ -30,7 +30,7 @@ class BoardsController < ApplicationController
   end
 
   def edit
-    selected_user_ids = @board.users.pluck :id
+    selected_user_ids = @board.users.ids
     @selected_users, @unselected_users = \
       @board.account.users.active.alphabetically.includes(:identity).partition { |user| selected_user_ids.include? user.id }
   end
@@ -83,7 +83,7 @@ class BoardsController < ApplicationController
     def show_columns
       cards = @board.cards.awaiting_triage.latest.with_golden_first.preloaded
       set_page_and_extract_portion_from cards
-      fresh_when etag: [ @board, @page.records, @user_filtering ]
+      fresh_when etag: [ @board, @page.records, @user_filtering, Current.account ]
     end
 
     def board_params

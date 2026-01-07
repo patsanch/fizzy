@@ -1,5 +1,5 @@
 <div class="card-perma__notch card-perma__notch--bottom flex-column">
-  <div class="flex gap-half">
+  <div class="card-perma__notch-new-card-buttons">
     <%= button_to card_publish_path(card), name: "creation_type", value: "add", class: "btn",
           title: "Create card (#{ hotkey_label(["ctrl", "enter"]) })",
           form: { data: { controller: "form" } },

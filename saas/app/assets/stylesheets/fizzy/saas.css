@@ -23,30 +23,36 @@
     color: var(--settings-subscription-text-color);
 
     &::before {
-      content: "————";
+      border-block-start: 1px solid var(--settings-subscription-text-color);
+      content: "";
       display: block;
-      margin: auto;
-      text-align: center;
+      inline-size: 8ch;
+      margin: 0 auto 1ch;
     }
+  }
+
+  .settings-subscription__link {
+    color: var(--settings-subscription-text-color);
   }
 
   .settings-subscription__notch {
     animation: wiggle 500ms ease;
     background: var(--settings-subscription-background);
-    box-shadow: 0 0 0.3em 0.2em var(--settings-subscription-color);
     border-radius: 3em;
+    box-shadow: 0 0 0.3em 0.2em var(--settings-subscription-color);
     color: var(--settings-subscription-text-color);
     margin-inline: auto;
-    padding: 0 0.3em 0 1.2em;
+    padding: 0.3em 0.3em 0.3em 1.2em;
     transform: rotate(-1deg);
 
     @media (max-width: 640px) {
-      padding-block: 0.6em;
-      padding-inline-start: 0.3em;
+      border-radius: 1ch;
+      padding-block: 1ch;
+      padding-inline: 2ch;
     }
 
     .btn {
-      margin-block: 0.3em;
+      /* margin-block: 0.3em; */
     }
   }
 

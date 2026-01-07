@@ -11,7 +11,7 @@ if [[ $CURRENT_BRANCH == "main" && $KAMAL_DESTINATION == "production" ]]; then
   RELEASE_URL=$(gh release view $KAMAL_SERVICE_VERSION --json url,body --jq .url)
   RELEASE_BODY=$(gh release view $KAMAL_SERVICE_VERSION --json url,body --jq .body)
 
-  bin/broadcast_to_bc "$MESSAGE "$'\n'"$RELEASE_URL "$'\n'"$RELEASE_BODY"
+  saas/bin/broadcast_to_bc "$MESSAGE "$'\n'"$RELEASE_URL "$'\n'"$RELEASE_BODY"
 else
-  bin/broadcast_to_bc "$MESSAGE"
+  saas/bin/broadcast_to_bc "$MESSAGE"
 fi
