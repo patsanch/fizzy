@@ -4,7 +4,7 @@
   <% elsif Current.account.exceeding_card_limit? %>
     You’ve used up your <u><%= number_with_delimiter(Plan.free.card_limit) %></u> free cards
   <% elsif Current.account.exceeding_storage_limit? %>
-    You’ve used up all <u><%= storage_to_human_size(Plan.free.storage_limit) %></u> free storage
+    You’ve used up all <u><%= storage_to_human_size(Plan.free.storage_limit) %></u> of free storage
   <% else %>
     You’ve used <u><%= Current.account.billed_cards_count %></u> free cards out of <%= number_with_delimiter(Plan.free.card_limit) %>
   <% end %>
