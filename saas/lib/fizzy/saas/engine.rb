@@ -1,6 +1,7 @@
 require_relative "transaction_pinning"
 require_relative "signup"
 require_relative "authorization"
+require_relative "gvl_instrumentation"
 require_relative "../../rails_ext/active_record_tasks_database_tasks.rb"
 
 module Fizzy
@@ -8,6 +9,11 @@ module Fizzy
     class Engine < ::Rails::Engine
       # moved from config/initializers/queenbee.rb
       Queenbee.host_app = Fizzy
+
+      # Configure ActionPushNative to use the saas database
+      ActiveSupport.on_load(:action_push_native_record) do
+        connects_to database: { writing: :saas, reading: :saas }
+      end
 
       initializer "fizzy_saas.content_security_policy", before: :load_config_initializers do |app|
         app.config.x.content_security_policy.form_action = "https://checkout.stripe.com https://billing.stripe.com"
@@ -20,6 +26,10 @@ module Fizzy
       initializer "fizzy_saas.public_files" do |app|
         app.middleware.insert_after ActionDispatch::Static, ActionDispatch::Static, root.join("public").to_s,
           headers: app.config.public_file_server.headers
+      end
+
+      initializer "fizzy_saas.push_config", after: "action_push_native.config" do |app|
+        app.paths["config/push"].unshift(root.join("config/push.yml").to_s)
       end
 
       initializer "fizzy.saas.routes", after: :add_routing_paths do |app|
@@ -49,6 +59,10 @@ module Fizzy
 
       initializer "fizzy_saas.transaction_pinning" do |app|
         app.config.middleware.insert_after(ActiveRecord::Middleware::DatabaseSelector, TransactionPinning::Middleware)
+      end
+
+      initializer "fizzy_saas.gvl_instrumentation" do |app|
+        app.config.middleware.insert_before(Rack::Runtime, GvlInstrumentation)
       end
 
       initializer "fizzy_saas.solid_queue" do
@@ -117,6 +131,9 @@ module Fizzy
           config.channel_class_name = "ActionCable::Channel::Base"
         end
 
+        require "yabeda/gvl"
+        Yabeda::GVL.install!
+
         require_relative "metrics"
       end
 
@@ -140,9 +157,14 @@ module Fizzy
       config.to_prepare do
         ::Account.include Account::Billing, Account::Limited
         ::User.include User::NotifiesAccountOfEmailChange
-        ::Signup.prepend Fizzy::Saas::Signup
+        ::Identity.include Authorization::Identity, Identity::Devices
+        ::Session.include Session::Devices
+        ::Signup.prepend Signup
+        ApplicationController.include Authorization::Controller
         CardsController.include(Card::LimitedCreation)
         Cards::PublishesController.include(Card::LimitedPublishing)
+
+        Notification.register_push_target(:native)
 
         Queenbee::Subscription.short_names = Subscription::SHORT_NAMES
 
@@ -154,9 +176,6 @@ module Fizzy
           ::Object.send(:remove_const, const_name) if ::Object.const_defined?(const_name)
           ::Object.const_set const_name, Subscription.const_get(short_name, false)
         end
-
-        ::ApplicationController.include Fizzy::Saas::Authorization::Controller
-        ::Identity.include Fizzy::Saas::Authorization::Identity
       end
     end
   end
