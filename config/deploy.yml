@@ -13,6 +13,8 @@ servers:
 # How you connect to your server
 ssh:
   user: ubuntu  # If you use a different username to SSH to your server, specify it here
+  keys:
+    - ~/.ec2_keys/sdod-user.pem
 
 # Automatic SSL
 proxy:
