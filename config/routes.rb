@@ -15,7 +15,6 @@ Rails.application.routes.draw do
       resource :avatar
       resource :role
       resource :events
-
       resources :push_subscriptions
 
       resources :email_addresses, param: :token do
@@ -47,6 +46,7 @@ Rails.application.routes.draw do
     resources :webhooks do
       scope module: :webhooks do
         resource :activation, only: :create
+        resources :deliveries, only: :index, defaults: { format: :json }
       end
     end
   end
@@ -156,6 +156,7 @@ Rails.application.routes.draw do
       resources :transfers
       resource :magic_link
       resource :menu
+      resource :passkey, only: :create
     end
   end
 
@@ -172,8 +173,10 @@ Rails.application.routes.draw do
   resource :landing
 
   namespace :my do
+    resource :passkey_challenge, only: :create
     resource :identity, only: :show
     resources :access_tokens
+    resources :passkeys, except: %i[ show new ]
     resources :pins
     resource :timezone
     resource :menu
