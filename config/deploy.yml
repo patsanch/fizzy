@@ -30,10 +30,10 @@ env:
     - MAILGUN_DOMAIN
     - MAILGUN_API_KEY
   clear:
-    BASE_URL: https://fizzy.example.com # The public URL of your Fizzy instance
-    MAILER_FROM_ADDRESS: support@example.com # The email "from" address that Fizzy sends email from
+    BASE_URL: https://fizzy.sdod.io # The public URL of your Fizzy instance
+    MAILER_FROM_ADDRESS: noreply@mail.sdod.com # The email "from" address that Fizzy sends email from
     SMTP_ADDRESS: mail.example.com # The SMTP server you'll use to send email
-    MULTI_TENANT: false # Set to true to allow multiple accounts to sign up
+    MULTI_TENANT: true # Set to true to allow multiple accounts to sign up
     SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
 
 
