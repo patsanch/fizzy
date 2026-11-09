@@ -153,7 +153,36 @@ config.action_controller.default_url_options = { host: "fizzy.sdod.io", protocol
 
 ### Bundler issues with ruby 4.0.9
 
+`rvm install 4.0.9` fails with "Unknown ruby interpreter version"? rvm is outdated:
+
+```bash
+rvm get head && rvm reload
+rvm install 4.0.9
+```
+
+`openssl` gem fails to build (`ASN1_BIT_STRING_set1` errors)? Homebrew's OpenSSL 4 is
+picked up; build against OpenSSL 3 instead:
+
 ```bash
 bundle config set --local build.openssl --with-openssl-dir=$(brew --prefix openssl@3)
 bundle install
 ```
+
+**Gemfile.lock conflicts: never regenerate from scratch.** Rails is tracked from
+`github: "rails/rails", branch: "main"`, so re-resolving the lockfile floats Rails to the
+branch tip. A newer Rails broke `config/initializers/uuid_primary_keys.rb`
+(`SystemStackError: stack level too deep` during `db:prepare`), which made the new container
+exit and Kamal report "target failed to become healthy". Instead, restore the lockfile
+from `main` and let Bundler only add what's missing:
+
+```bash
+git show main:Gemfile.lock > Gemfile.lock
+bundle install            # not `bundle update`
+grep -A1 'rails/rails.git' Gemfile.lock   # revision should match main's
+```
+
+Run the tests before deploying.
+
+**Debugging a failed deploy:** the old container keeps serving. Find the crashed one with
+`bundle exec kamal app containers`, then read its log on the host:
+`docker logs <container-id> 2>&1 | grep -n -A3 "aborted!"`.
