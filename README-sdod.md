@@ -150,3 +150,10 @@ config.action_cable.allowed_request_origins = [ "https://fizzy.sdod.io", /https:
 ```ruby
 config.action_controller.default_url_options = { host: "fizzy.sdod.io", protocol: "https" }
 ```
+
+### Bundler issues with ruby 4.0.9
+
+```bash
+bundle config set --local build.openssl --with-openssl-dir=$(brew --prefix openssl@3)
+bundle install
+```

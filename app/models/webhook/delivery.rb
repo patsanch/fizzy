@@ -83,7 +83,7 @@ class Webhook::Delivery < ApplicationRecord
       { error: :dns_lookup_failed }
     rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ETIMEDOUT
       { error: :connection_timeout }
-    rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ECONNRESET
+    rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH, Errno::EADDRNOTAVAIL, Errno::EAFNOSUPPORT, Errno::ECONNRESET
       { error: :destination_unreachable }
     rescue OpenSSL::SSL::SSLError
       { error: :failed_tls }
@@ -106,8 +106,10 @@ class Webhook::Delivery < ApplicationRecord
       @uri ||= URI(webhook.url)
     end
 
+    # The nil proxy address ignores http_proxy: a proxy would look the host up again, and the connection
+    # would no longer go to resolved_ip.
     def http
-      Net::HTTP.new(uri.host, uri.port).tap do |http|
+      Net::HTTP.new(uri.host, uri.port, nil).tap do |http|
         http.ipaddr = resolved_ip
         http.use_ssl = (uri.scheme == "https")
         http.open_timeout = ENDPOINT_TIMEOUT
